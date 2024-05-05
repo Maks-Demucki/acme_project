@@ -7,18 +7,9 @@ from .models import Birthday
 from .utils import calculate_birthday_countdown
 
 
-class BirthdayMixin:
+class BirthdayCreateView(CreateView):
     model = Birthday
-    success_url = reverse_lazy('birthday:list')
-
-
-class BirthdayFormMixin:
     form_class = BirthdayForm
-    template_name = 'birthday/birthday.html'
-
-
-class BirthdayCreateView(BirthdayMixin, BirthdayFormMixin, CreateView):
-    pass
 
 
 class BirthdayListView(ListView):
@@ -27,24 +18,22 @@ class BirthdayListView(ListView):
     paginate_by = 10
 
 
-class BirthdayUpdateView(BirthdayMixin, BirthdayFormMixin, UpdateView):
-    pass
+class BirthdayUpdateView(UpdateView):
+    model = Birthday
+    form_class = BirthdayForm
 
 
-class BirthdayDeleteView(BirthdayMixin, DeleteView):
-    pass
+class BirthdayDeleteView(DeleteView):
+    model = Birthday
+    success_url = reverse_lazy('birthday:list')
 
 
 class BirthdayDetailView(DetailView):
     model = Birthday
 
     def get_context_data(self, **kwargs):
-        # Получаем словарь контекста:
         context = super().get_context_data(**kwargs)
-        # Добавляем в словарь новый ключ:
         context['birthday_countdown'] = calculate_birthday_countdown(
-            # Дату рождения берём из объекта в словаре context:
             self.object.birthday
         )
-        # Возвращаем словарь контекста.
         return context
