@@ -6,7 +6,10 @@ SECRET_KEY = 'django-insecure-m&$lzdzkutvrbr5vt=jpm)7#g7cken_tk%($ty+w902n7wb#=e
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -16,6 +19,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'birthday.apps.BirthdayConfig',
+    'core.apps.CoreConfig',
     'pages.apps.PagesConfig',
     'django_bootstrap5',
 ]
@@ -31,6 +35,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CSRF_FAILURE_VIEW = 'core.views.csrf_failure'
 
 ROOT_URLCONF = 'acme_project.urls'
 
